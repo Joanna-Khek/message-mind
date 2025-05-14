@@ -17,25 +17,30 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install uv
         run: |
           pip install uv
 
-      - name: Install dependencies
-        run: |
-          uv sync
-
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y openssl ca-certificates
-          rm -rf /var/lib/apt/lists/* # Clean up to reduce image size
+          apt-get install -y openssl ca-certificates libssl-dev
+          rm -rf /var/lib/apt/lists/*
 
-      - name: Check OpenSSL version
+      - name: Verify OpenSSL version
         run: |
           openssl version
+          python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+
+      - name: Install Python dependencies
+        run: |
+          uv sync
+
+      - name: Verify pymongo version
+        run: |
+          python -c "import pymongo; print(pymongo.__version__)"
 
       - name: Restore Telethon client session
         run: |
@@ -47,12 +52,11 @@ jobs:
           BOT_TELETHON_SESSION_B64: bot.session
           USER_TELETHON_SESSION_B64: user.session
           TELEGRAM_CHAT_API_ID: ${{ secrets.TELEGRAM_CHAT_API_ID }}
-          TELEGRAM_CHAT_API_HASH: ${{ secrets.TELEGRAM_CHAT_API_HASH}}
+          TELEGRAM_CHAT_API_HASH: ${{ secrets.TELEGRAM_CHAT_API_HASH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_URI: ${{ secrets.DB_URI }}
           DB_APP_NAME: ${{ secrets.DB_APP_NAME }}
-
         run: |
           uv run src/message_mind/database_management/main.py
