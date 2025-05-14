@@ -26,7 +26,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y openssl ca-certificates libssl-dev sudo curl
+          apt-get install -y openssl ca-certificates libssl-dev sudo curl npm
           rm -rf /var/lib/apt/lists/*
 
       - name: Verify OpenSSL version
