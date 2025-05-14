@@ -27,14 +27,15 @@ jobs:
         run: |
           uv sync
 
-      - name: Update OpenSSL
+      - name: Install system dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openssl
+          apt-get update
+          apt-get install -y openssl ca-certificates
+          rm -rf /var/lib/apt/lists/* # Clean up to reduce image size
 
-      - name: Install CA certificates
+      - name: Check OpenSSL version
         run: |
-          sudo apt-get install -y ca-certificates
+          openssl version
 
       - name: Restore Telethon client session
         run: |
