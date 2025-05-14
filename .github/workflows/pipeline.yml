@@ -38,10 +38,6 @@ jobs:
         run: |
           uv sync
 
-      - name: Verify pymongo version
-        run: |
-          python -c "import pymongo; print(pymongo.__version__)"
-
       - name: Restore Telethon client session
         run: |
           echo "${{ secrets.BOT_TELETHON_SESSION_B64 }}" | base64 -d > bot.session
