@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from datetime import datetime
 from pymongo.mongo_client import MongoClient
 from pymongo.collection import Collection
-from pymongo.server_api import ServerApi
 from loguru import logger
 
 
@@ -14,9 +13,9 @@ class DatabaseManager:
         self.app_name = app_name
 
         # Initialize the MongoDB client
-        uri = f"mongodb+srv://{db_username}:{db_password}@{db_uri}/?retryWrites=true&w=majority&appName={self.app_name}&tls=true"
+        uri = f"mongodb+srv://{db_username}:{db_password}@{db_uri}/?retryWrites=true&w=majority&appName={self.app_name}"
 
-        self.client = MongoClient(uri, server_api=ServerApi("1"))
+        self.client = MongoClient(uri, tls=True, tlsAllowInvalidCertificates=True)
 
         # Send a ping to confirm a successful connection
         try:
