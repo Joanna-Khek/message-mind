@@ -34,6 +34,21 @@ jobs:
           openssl version
           python -c "import ssl; print(ssl.OPENSSL_VERSION)"
 
+      # Grant temporary MongoDB access to this Github Action runner ip address
+      - name: Get the public IP of this runner
+        id: get_gh_runner_ip
+        shell: bash
+        run: |
+          echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup MongoDB Atlas cli
+        uses: mongodb/atlas-github-action@v0.2.0
+
+      - name: Add runner IP to MongoDB access list
+        shell: bash
+        run: |
+          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --comment  "Temporary access for GH Action"
+
       - name: Set up environment variables
         run: |
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
@@ -60,6 +75,10 @@ jobs:
           echo "${{ secrets.USER_TELETHON_SESSION_B64 }}" | base64 -d > joanna.session
 
       - name: Run Telethon extraction script
-
         run: |
           uv run src/message_mind/database_management/main.py
+
+      - name: Remove GH runner IP from MongDB access list
+        shell: bash
+        run: |
+          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --force
