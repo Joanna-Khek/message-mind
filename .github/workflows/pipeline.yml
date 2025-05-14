@@ -12,7 +12,6 @@ jobs:
   telethon-extraction:
     name: Extract messages from Telegram
     runs-on: ubuntu-latest
-    secrets: inherit
     container:
       image: python:3.12-slim
 
