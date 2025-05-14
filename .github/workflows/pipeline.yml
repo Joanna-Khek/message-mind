@@ -44,9 +44,10 @@ jobs:
       - name: Setup MongoDB Atlas cli
         uses: mongodb/atlas-github-action@v0.2.0
 
-      - name: Authenticate with MongoDB Atlas CLI
+      - name: Authenticate Atlas CLI
         run: |
-          atlas config init --publicKey ${{ secrets.MONGODB_PUBLIC_KEY }} --privateKey ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
+          atlas config set public_api_key=${{ secrets.MONGODB_PUBLIC_KEY }} private_api_key=${{ secrets.MONGODB_PRIVATE_KEY }}
+          atlas auth login --apiKey
 
       - name: Add runner IP to MongoDB access list
         shell: bash
