@@ -16,12 +16,6 @@ message_manager = MessageManager(
     bot_token=os.getenv("TELEGRAM_BOT_TOKEN"),
 )
 
-logger.debug(
-    f"DB USERNAME: {os.getenv('DB_USERNAME')}, "
-    f"DB PASSWORD: {os.getenv('DB_PASSWORD')}, "
-    f"DB URI: {os.getenv('DB_URI')}, "
-    f"DB APP NAME: {os.getenv('DB_APP_NAME')}, "
-)
 
 database_manager = DatabaseManager(
     db_username=os.getenv("DB_USERNAME"),
