@@ -81,8 +81,8 @@ jobs:
           echo "DB_APP_NAME=${{ secrets.DB_APP_NAME }}" >> .env
           echo "DB_COLLECTION_NAME=${{ secrets.DB_COLLECTION_NAME }}" >> .env
 
-          echo "BOT_TELETHON_SESSION_B64=${{ secrets.BOT_TELETHON_SESSION_B64 }}" >> .env
-          echo "USER_TELETHON_SESSION_B64=${{ secrets.USER_TELETHON_SESSION_B64 }}" >> .env
+          echo "BOT_TELETHON_SESSION=${{ secrets.BOT_TELETHON_SESSION }}" >> .env
+          echo "USER_TELETHON_SESSION=${{ secrets.USER_TELETHON_SESSION }}" >> .env
           echo "TELEGRAM_CHAT_API_ID=${{ secrets.TELEGRAM_CHAT_API_ID }}" >> .env
           echo "TELEGRAM_CHAT_API_HASH=${{ secrets.TELEGRAM_CHAT_API_HASH }}" >> .env
           echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
