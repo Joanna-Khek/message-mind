@@ -105,4 +105,4 @@ jobs:
       - name: Remove GH runner IP from MongDB access list
         shell: bash
         run: |
-          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
+          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ secrets.MONGODB_ATLAS_PROJECT_ID }} --force
