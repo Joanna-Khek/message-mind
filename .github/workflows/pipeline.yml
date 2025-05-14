@@ -53,7 +53,23 @@ jobs:
         shell: bash
         run: atlas --version # Print Atlas CLI Version
 
-      # Test Atlas CLI configuration
+      # Configure Atlas CLI with a named profile
+      - name: Configure Atlas CLI Profile
+        env:
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+        run: |
+          mkdir -p ~/.atlascli
+          cat <<EOF > ~/.atlascli/config.yaml
+          profiles:
+            myprofile:
+              public_api_key: $MONGODB_ATLAS_PUBLIC_API_KEY
+              private_api_key: $MONGODB_ATLAS_PRIVATE_API_KEY
+              output: json
+          EOF
+          cat ~/.atlascli/config.yaml  # Debug: Verify config file
+
+      # Test Atlas CLI configurations
       - name: Test Atlas CLI
         run: atlas projects list
 
