@@ -15,7 +15,7 @@ class DatabaseManager:
         # Initialize the MongoDB client
         uri = f"mongodb+srv://{db_username}:{db_password}@{db_uri}/?retryWrites=true&w=majority&appName={self.app_name}"
 
-        self.client = MongoClient(uri, tls=True, tlsAllowInvalidCertificates=False)
+        self.client = MongoClient(uri, tls=True, tlsAllowInvalidCertificates=True)
 
         # Send a ping to confirm a successful connection
         try:
