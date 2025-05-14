@@ -9,8 +9,8 @@ from message_mind import utils
 load_dotenv()
 
 message_manager = MessageManager(
-    client_session=os.getenv("TELETHON_CLIENT_SESSION"),
-    bot_session=os.getenv("TELETHON_BOT_SESSION"),
+    client_session=os.getenv("USER_TELETHON_SESSION_B64"),
+    bot_session=os.getenv("BOT_TELETHON_SESSION_B64"),
     api_id=os.getenv("TELEGRAM_CHAT_API_ID"),
     api_hash=os.getenv("TELEGRAM_CHAT_API_HASH"),
     bot_token=os.getenv("TELEGRAM_BOT_TOKEN"),
