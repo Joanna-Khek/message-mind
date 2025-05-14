@@ -14,18 +14,6 @@ env:
   MONGODB_ATLAS_PROJECT_ID: ${{ secrets.PROJECT_ID }}
 
 jobs:
-  use-atlas-cli:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup AtlasCLI
-        uses: mongodb/atlas-github-action@v0.2.0
-
-      - name: Use AtlasCLI
-        shell: bash
-        run: atlas --version # Print Atlas CLI Version
-
-
   telethon-extraction:
     name: Extract messages from Telegram
     runs-on: ubuntu-latest
@@ -58,6 +46,12 @@ jobs:
         run: |
           echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
 
+      - name: Setup AtlasCLI
+        uses: mongodb/atlas-github-action@v0.2.0
+
+      - name: Use AtlasCLI
+        shell: bash
+        run: atlas --version # Print Atlas CLI Version
 
       # Test Atlas CLI configuration
       - name: Test Atlas CLI
