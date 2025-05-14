@@ -42,11 +42,11 @@ async def main():
 
             # Check if the message already exists in the database
             if not database_manager.check_message_exist(
-                message=json_msg, collection_name=os.getenv("COLLECTION_NAME")
+                message=json_msg, collection_name=os.getenv("DB_COLLECTION_NAME")
             ):
                 # Save to database
                 database_manager.save_to_database(
-                    collection_name=os.getenv("COLLECTION_NAME"),
+                    collection_name=os.getenv("DB_COLLECTION_NAME"),
                     message=json_msg,
                 )
 
