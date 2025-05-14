@@ -34,6 +34,22 @@ jobs:
           openssl version
           python -c "import ssl; print(ssl.OPENSSL_VERSION)"
 
+      - name: Set up environment variables
+        run: |
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_URI=${{ secrets.DB_URI }}" >> .env
+          echo "DB_APP_NAME=${{ secrets.DB_APP_NAME }}" >> .env
+          echo "DB_COLLECTION_NAME=${{ secrets.DB_COLLECTION_NAME }}" >> .env
+
+          echo "BOT_TELETHON_SESSION_B64=${{ secrets.BOT_TELETHON_SESSION_B64 }}" >> .env
+          echo "USER_TELETHON_SESSION_B64=${{ secrets.USER_TELETHON_SESSION_B64 }}" >> .env
+          echo "TELEGRAM_CHAT_API_ID=${{ secrets.TELEGRAM_CHAT_API_ID }}" >> .env
+          echo "TELEGRAM_CHAT_API_HASH=${{ secrets.TELEGRAM_CHAT_API_HASH }}" >> .env
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+
+        shell: bash
+
       - name: Install Python dependencies
         run: |
           uv sync
@@ -44,15 +60,6 @@ jobs:
           echo "${{ secrets.USER_TELETHON_SESSION_B64 }}" | base64 -d > user.session
 
       - name: Run Telethon extraction script
-        env:
-          BOT_TELETHON_SESSION_B64: bot.session
-          USER_TELETHON_SESSION_B64: user.session
-          TELEGRAM_CHAT_API_ID: ${{ secrets.TELEGRAM_CHAT_API_ID }}
-          TELEGRAM_CHAT_API_HASH: ${{ secrets.TELEGRAM_CHAT_API_HASH }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_URI: ${{ secrets.DB_URI }}
-          DB_APP_NAME: ${{ secrets.DB_APP_NAME }}
+
         run: |
           uv run src/message_mind/database_management/main.py
