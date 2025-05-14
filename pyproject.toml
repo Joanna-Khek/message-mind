@@ -1,0 +1,34 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+dependencies = [
+  "beautifulsoup4>=4.13.4",
+  "google-api-python-client>=2.169.0",
+  "html2text>=2025.4.15",
+  "ipykernel>=6.29.5",
+  "langchain-community>=0.3.23",
+  "langchain-core>=0.3.59",
+  "langchain-openai>=0.3.16",
+  "langchain>=0.3.25",
+  "langfuse>=2.60.4",
+  "langgraph>=0.4.3",
+  "loguru>=0.7.3",
+  "lxml>=5.4.0",
+  "openai>=1.78.0",
+  "pillow>=11.2.1",
+  "playwright>=1.52.0",
+  "pre-commit>=4.2.0",
+  "pymongo[srv]==3.12",
+  "python-dotenv>=1.1.0",
+  "pytube>=15.0.0",
+  "telethon>=1.40.0",
+  "unstructured>=0.17.2",
+  "youtube-transcript-api>=1.0.3"
+]
+description = "Add your description here"
+name = "message-mind"
+readme = "README.md"
+requires-python = ">=3.12"
+version = "0.1.0"
