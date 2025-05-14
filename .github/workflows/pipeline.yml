@@ -46,13 +46,13 @@ jobs:
 
       - name: Authenticate Atlas CLI
         run: |
-          atlas config set public_api_key=${{ secrets.MONGODB_PUBLIC_KEY }} private_api_key=${{ secrets.MONGODB_PRIVATE_KEY }}
-          atlas auth login --apiKey
+          atlas config init --accessToken ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}:${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          atlas auth login
 
       - name: Add runner IP to MongoDB access list
         shell: bash
         run: |
-          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ secrets.MONGODB_PROJECT_ID }} --comment  "Temporary access for GH Action"
+          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ secrets.MONGODB_ATLAS_PROJECT_ID }} --comment  "Temporary access for GH Action"
 
 
       - name: Set up environment variables
