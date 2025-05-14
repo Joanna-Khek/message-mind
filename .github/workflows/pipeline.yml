@@ -41,10 +41,13 @@ jobs:
         run: |
           echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
 
-      - name: Setup MongoDB Atlas cli
-        uses: mongodb/atlas-github-action@v0.2.0
+      # Install MongoDB Atlas CLI
+      - name: Install Atlas CLI
+        run: |
+          npm install -g @mongodb-js/atlas-cli
+          atlas --version  # Verify installation
 
-     # Create Atlas CLI config file
+      # Create Atlas CLI config file
       - name: Configure Atlas CLI
         env:
           MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
@@ -54,12 +57,14 @@ jobs:
           cat <<EOF > ~/.atlascli/config.yaml
           public_api_key: $MONGODB_ATLAS_PUBLIC_API_KEY
           private_api_key: $MONGODB_ATLAS_PRIVATE_API_KEY
+          output: json  # Optional: Set default output format
           EOF
-          cat ~/.atlascli/config.yaml  # Debug: verify file contents
+          cat ~/.atlascli/config.yaml  # Debug: Print config file for verification
 
       # Test Atlas CLI configuration
-      - name: Test Atlas CLI
-        run: atlas projects list
+      - name: List Atlas Projects
+        run: |
+          atlas projects list
 
       - name: Add runner IP to MongoDB access list
         shell: bash
