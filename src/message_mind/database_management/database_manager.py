@@ -14,7 +14,7 @@ class DatabaseManager:
         self.app_name = app_name
 
         # Initialize the MongoDB client
-        uri = f"mongodb+srv://{db_username}:{db_password}@{db_uri}/?retryWrites=true&w=majority&appName={self.app_name}"
+        uri = f"mongodb+srv://{db_username}:{db_password}@{db_uri}/?retryWrites=true&w=majority&appName={self.app_name}&tls=true"
 
         self.client = MongoClient(uri, server_api=ServerApi("1"))
 
