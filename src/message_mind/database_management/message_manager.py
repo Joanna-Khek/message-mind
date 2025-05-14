@@ -3,6 +3,7 @@ from datetime import datetime
 from telethon import TelegramClient
 from telethon.tl.types import MessageMediaPhoto
 from zoneinfo import ZoneInfo
+from loguru import logger
 
 
 class MessageManager:
@@ -14,17 +15,21 @@ class MessageManager:
         api_hash: str,
         bot_token: str,
     ):
-        self.client = TelegramClient(
-            session=client_session,
-            api_id=api_id,
-            api_hash=api_hash,
-        )
+        try:
+            self.client = TelegramClient(
+                session=client_session,
+                api_id=api_id,
+                api_hash=api_hash,
+            )
 
-        self.bot = TelegramClient(
-            session=bot_session,
-            api_id=api_id,
-            api_hash=api_hash,
-        )
+            self.bot = TelegramClient(
+                session=bot_session,
+                api_id=api_id,
+                api_hash=api_hash,
+            )
+            logger.info("Telegram clients initialized successfully.")
+        except Exception as e:
+            logger.error(f"Error initializing Telegram clients: {e}")
 
         self.bot_token = bot_token
         self.timezone = ZoneInfo("Asia/Singapore")
