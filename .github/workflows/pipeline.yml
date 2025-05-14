@@ -27,6 +27,16 @@ jobs:
         run: |
           uv sync
 
+      - name: Install CA certificates
+        run: |
+          apt-get update && apt-get install -y ca-certificates
+          update-ca-certificates
+
+      - name: Test MongoDB connection
+        run: |
+          openssl s_client -connect ac-lkvhlmy-shard-00-00.1sqtpgu.mongodb.net:27017
+
+
       - name: Restore Telethon client session
         run: |
           echo "${{ secrets.BOT_TELETHON_SESSION_B64 }}" | base64 -d > bot.session
