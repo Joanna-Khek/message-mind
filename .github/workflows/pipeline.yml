@@ -26,7 +26,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y openssl ca-certificates libssl-dev
+          apt-get install -y openssl ca-certificates libssl-dev sudo curl
           rm -rf /var/lib/apt/lists/*
 
       - name: Verify OpenSSL version
@@ -34,12 +34,7 @@ jobs:
           openssl version
           python -c "import ssl; print(ssl.OPENSSL_VERSION)"
 
-      - name: Install sudo
-        run: |
-          apt-get update
-          apt-get install -y sudo
-
-      # Grant temporary MongoDB access to this Github Action runner ip address
+       # Grant temporary MongoDB access to this Github Action runner ip address
       - name: Get the public IP of this runner
         id: get_gh_runner_ip
         shell: bash
@@ -49,10 +44,15 @@ jobs:
       - name: Setup MongoDB Atlas cli
         uses: mongodb/atlas-github-action@v0.2.0
 
+      - name: Authenticate with MongoDB Atlas CLI
+        run: |
+          atlas config init --publicKey ${{ secrets.MONGODB_PUBLIC_KEY }} --privateKey ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
+
       - name: Add runner IP to MongoDB access list
         shell: bash
         run: |
-          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --comment  "Temporary access for GH Action"
+          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ secrets.MONGODB_PROJECT_ID }} --comment  "Temporary access for GH Action"
+
 
       - name: Set up environment variables
         run: |
@@ -86,4 +86,4 @@ jobs:
       - name: Remove GH runner IP from MongDB access list
         shell: bash
         run: |
-          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --force
+          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ secrets.MONGODB_PROJECT_ID }} --force
