@@ -57,7 +57,7 @@ jobs:
       - name: Restore Telethon client session
         run: |
           echo "${{ secrets.BOT_TELETHON_SESSION_B64 }}" | base64 -d > bot.session
-          echo "${{ secrets.USER_TELETHON_SESSION_B64 }}" | base64 -d > user.session
+          echo "${{ secrets.USER_TELETHON_SESSION_B64 }}" | base64 -d > joanna.session
 
       - name: Run Telethon extraction script
 
