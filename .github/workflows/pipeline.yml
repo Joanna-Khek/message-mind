@@ -8,7 +8,24 @@ on:
       - main
       - cicd
 
+env:
+  MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
+  MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
+  MONGODB_ATLAS_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+
 jobs:
+  use-atlas-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup AtlasCLI
+        uses: mongodb/atlas-github-action@v0.2.0
+
+      - name: Use AtlasCLI
+        shell: bash
+        run: atlas --version # Print Atlas CLI Version
+
+
   telethon-extraction:
     name: Extract messages from Telegram
     runs-on: ubuntu-latest
@@ -26,7 +43,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y openssl ca-certificates libssl-dev sudo curl npm
+          apt-get install -y openssl ca-certificates libssl-dev sudo curl
           rm -rf /var/lib/apt/lists/*
 
       - name: Verify OpenSSL version
@@ -41,30 +58,10 @@ jobs:
         run: |
           echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
 
-      # Install MongoDB Atlas CLI
-      - name: Install Atlas CLI
-        run: |
-          npm install -g @mongodb-js/atlas-cli
-          atlas --version  # Verify installation
-
-      # Create Atlas CLI config file
-      - name: Configure Atlas CLI
-        env:
-          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
-          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
-        run: |
-          mkdir -p ~/.atlascli
-          cat <<EOF > ~/.atlascli/config.yaml
-          public_api_key: $MONGODB_ATLAS_PUBLIC_API_KEY
-          private_api_key: $MONGODB_ATLAS_PRIVATE_API_KEY
-          output: json  # Optional: Set default output format
-          EOF
-          cat ~/.atlascli/config.yaml  # Debug: Print config file for verification
 
       # Test Atlas CLI configuration
-      - name: List Atlas Projects
-        run: |
-          atlas projects list
+      - name: Test Atlas CLI
+        run: atlas projects list
 
       - name: Add runner IP to MongoDB access list
         shell: bash
