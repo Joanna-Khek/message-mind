@@ -40,6 +40,8 @@ async def main():
             json_msg = await message_manager.extract_message(message)
             # str_msg = message_manager.json_to_str(json_msg)
 
+            logger.info(f"Message: {json_msg}")
+
             # Check if the message already exists in the database
             if not database_manager.check_message_exist(
                 message=json_msg, collection_name=os.getenv("DB_COLLECTION_NAME")
