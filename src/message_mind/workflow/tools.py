@@ -6,6 +6,9 @@ from langchain_community.document_loaders import UnstructuredURLLoader
 from googleapiclient.discovery import build, Resource
 from langchain.tools import tool
 
+# TODO: Tool for linkedin post (title)
+# TODO: Tool for to do list
+
 
 @tool
 def html_to_text(url: str) -> str:
