@@ -106,3 +106,24 @@ jobs:
         shell: bash
         run: |
           atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ secrets.MONGODB_ATLAS_PROJECT_ID }} --force
+
+  langgraph-workflow:
+    name: Categorise messages
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.12-slim
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        run: |
+          pip install uv
+
+      - name: Install Python dependencies
+        run: |
+          uv sync
+
+      - name: Run LangGraph workflow script
+        run: |
+          uv run src/message_mind/langgraph_workflow/main.py
