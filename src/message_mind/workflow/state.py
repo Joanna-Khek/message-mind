@@ -13,6 +13,5 @@ class OutputResponse(BaseModel):
 
 class AgentState(TypedDict):
     input: dict
-    input_id: str
     messages: Annotated[list[AnyMessage], add_messages]
     final_response: OutputResponse
