@@ -19,7 +19,6 @@ def setup_langfuse():
         public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
         secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
         host=os.getenv("LANGFUSE_HOST"),
-        debug=True,
     )
     try:
         langfuse.trace(name="test_trace")
@@ -28,6 +27,14 @@ def setup_langfuse():
         logger.error(f"Langfuse connection failed: {e}")
 
     return CallbackHandler()
+
+
+def convert_category(category: str) -> str:
+    """
+    Convert category to lowercase and replace hyphens with spaces
+    """
+    clean_category = category.lower().replace("-", " ")
+    return clean_category
 
 
 langfuse_handler = setup_langfuse()
@@ -55,9 +62,10 @@ for item in inputs:
 
     # Prepare data for update
     update_data = {
-        "category": result["final_response"].category,
+        "category": convert_category(result["final_response"].category),
         "summary": result["final_response"].summary,
         "reasoning": result["final_response"].reasoning,
+        "completed": False,
     }
 
     # Update database with result
