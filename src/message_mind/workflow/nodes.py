@@ -1,10 +1,14 @@
+import os
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
 from message_mind.workflow.state import AgentState, OutputResponse
 from message_mind.workflow import tools, prompts
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(
+    model="gpt-4o-mini", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY")
+)
+
 llm_with_structured_output = llm.with_structured_output(OutputResponse)
 llm_with_tools = llm.bind_tools(tools.tools)
 
