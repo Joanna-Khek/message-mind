@@ -126,4 +126,4 @@ jobs:
 
       - name: Run LangGraph workflow script
         run: |
-          uv run src/message_mind/langgraph_workflow/main.py
+          uv run src/message_mind/workflow/main.py
