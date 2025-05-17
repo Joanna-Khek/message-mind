@@ -40,10 +40,10 @@ async def notify_telegram(result: dict, cost: float) -> None:
     bot = Bot(os.getenv("TELEGRAM_BOT_TOKEN"))
 
     text = (
-        f"Title: {result['input']['details']}\n"
-        f"Category: {result['final_response'].category}\n"
-        f"Summary: {result['final_response'].summary}\n"
-        f"Cost: {cost}"
+        f"**Title:** {result['input']['details']}\n"
+        f"**Category:** {result['final_response'].category}\n"
+        f"**Summary:** {result['final_response'].summary}\n"
+        f"**Cost:** {cost}"
     )
 
     async with bot:
