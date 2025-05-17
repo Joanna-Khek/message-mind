@@ -1166,6 +1166,7 @@ dependencies = [
     { name = "pre-commit" },
     { name = "pymongo", extra = ["srv"] },
     { name = "python-dotenv" },
+    { name = "python-telegram-bot" },
     { name = "pytube" },
     { name = "telethon" },
     { name = "unstructured" },
@@ -1192,6 +1193,7 @@ requires-dist = [
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pymongo", extras = ["srv"], specifier = "==3.12" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
+    { name = "python-telegram-bot", specifier = ">=22.1" },
     { name = "pytube", specifier = ">=15.0.0" },
     { name = "telethon", specifier = ">=1.40.0" },
     { name = "unstructured", specifier = ">=0.17.2" },
@@ -1879,6 +1881,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a2/4e/869f34faedbc968796d2c7e9837dede079c9cb9750917356b1f1eda926e9/python_oxmsg-0.0.2.tar.gz", hash = "sha256:a6aff4deb1b5975d44d49dab1d9384089ffeec819e19c6940bc7ffbc84775fad", size = 34713 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/53/67/f56c69a98c7eb244025845506387d0f961681657c9fcd8b2d2edd148f9d2/python_oxmsg-0.0.2-py3-none-any.whl", hash = "sha256:22be29b14c46016bcd05e34abddfd8e05ee82082f53b82753d115da3fc7d0355", size = 31455 },
+]
+
+[[package]]
+name = "python-telegram-bot"
+version = "22.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/35/2f/52ad8a19b75a6b5c9525abce9e3d9c57dfe21c29a4723ba2aeeb2c611a9d/python_telegram_bot-22.1.tar.gz", hash = "sha256:b6c7fc1f3635cef6aff0c431827407cafde183e7e1992060edeacc2bf08d23d8", size = 459976 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/7b/b06663b3563299e15dac0b3a2044830db35c676753caeb45ae0acbf029a9/python_telegram_bot-22.1-py3-none-any.whl", hash = "sha256:71afd091fde9037ac44728c2768eb958682140dcc350900a191da0e9cef319d3", size = 702289 },
 ]
 
 [[package]]
