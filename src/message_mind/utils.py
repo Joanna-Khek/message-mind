@@ -43,7 +43,7 @@ async def notify_telegram(result: dict, cost: float) -> None:
         f"Title: {result['input']['details']}\n"
         f"Category: {result['final_response'].category}\n"
         f"Summary: {result['final_response'].summary}\n"
-        f"Cost: ${cost:.2f}"
+        f"Cost: {cost}"
     )
 
     async with bot:
