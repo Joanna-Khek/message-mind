@@ -1,10 +1,11 @@
 import os
+import asyncio
 from dotenv import load_dotenv
 from message_mind.database_management import DatabaseManager
 from langfuse.callback import CallbackHandler
 from langfuse import Langfuse
 from loguru import logger
-
+from langchain_core.messages import AIMessage
 from message_mind.workflow.graph import create_workflow_graph
 from message_mind import utils
 
@@ -47,31 +48,53 @@ database_manager = DatabaseManager(
 )
 
 
-graph = create_workflow_graph()
+async def main():
+    graph = create_workflow_graph()
 
-# Gather all messages that hasn't been categorised
-inputs = database_manager.fetch_items(collection_name=os.getenv("DB_COLLECTION_NAME"))
-logger.info(f"Fetched {len(inputs)} items requiring categorization from the database.")
-
-thread = {"configurable": {"thread_id": "1"}, "callbacks": [langfuse_handler]}
-
-for item in inputs:
-    # Run the workflow graph to get category and summary of message
-    result = graph.invoke({"input": utils.convert_objectids(item)}, config=thread)
-    logger.info(f"Generated result: {result['final_response']}")
-
-    # Prepare data for update
-    update_data = {
-        "category": convert_category(result["final_response"].category),
-        "summary": result["final_response"].summary,
-        "reasoning": result["final_response"].reasoning,
-        "completed": False,
-    }
-
-    # Update database with result
-    database_manager.update_item(
-        collection_name=os.getenv("DB_COLLECTION_NAME"),
-        item_id=result["input"]["_id"],
-        update_data=update_data,
+    # Gather all messages that hasn't been categorised
+    inputs = database_manager.fetch_items(
+        collection_name=os.getenv("DB_COLLECTION_NAME")
     )
-    logger.info("Database updated successfully.")
+    logger.info(
+        f"Fetched {len(inputs)} items requiring categorization from the database."
+    )
+
+    thread = {"configurable": {"thread_id": "1"}, "callbacks": [langfuse_handler]}
+
+    for item in inputs:
+        # Run the workflow graph to get category and summary of message
+        result = graph.invoke({"input": utils.convert_objectids(item)}, config=thread)
+        logger.info(f"Generated result: {result['final_response']}")
+
+        # Compute cost
+        cost = utils.calculate_cost(
+            ai_messages=[
+                msg for msg in result["messages"] if isinstance(msg, AIMessage)
+            ],
+            input_tokens_cost=float(os.getenv("INPUT_TOKENS_COST")),
+            output_tokens_cost=float(os.getenv("OUTPUT_TOKENS_COST")),
+        )
+        # Prepare data for update
+        update_data = {
+            "cost": cost,
+            "category": convert_category(result["final_response"].category),
+            "summary": result["final_response"].summary,
+            "reasoning": result["final_response"].reasoning,
+            "completed": False,
+        }
+
+        # Update database with result
+        database_manager.update_item(
+            collection_name=os.getenv("DB_COLLECTION_NAME"),
+            item_id=result["input"]["_id"],
+            update_data=update_data,
+        )
+
+        # Notify Telegram
+        await utils.notify_telegram(result=result, cost=cost)
+
+        logger.info("Database updated successfully.")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
