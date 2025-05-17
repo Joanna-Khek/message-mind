@@ -82,9 +82,9 @@ jobs:
           echo "DB_COLLECTION_NAME=${{ secrets.DB_COLLECTION_NAME }}" >> .env
 
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
-          echo "LANGFUSE_SECRET_KEY"=${{ secrets.LANGFUSE_SECRET_KEY }}" >> .env
-          echo "LANGFUSE_PUBLIC_KEY"=${{ secrets.LANGFUSE_PUBLIC_KEY }}" >> .env
-          echo "LANGFUSE_HOST"=${{ secrets.LANGFUSE_HOST }}" >> .env
+          echo "LANGFUSE_SECRET_KEY=${{ secrets.LANGFUSE_SECRET_KEY }}" >> .env
+          echo "LANGFUSE_PUBLIC_KEY=${{ secrets.LANGFUSE_PUBLIC_KEY }}" >> .env
+          echo "LANGFUSE_HOST=${{ secrets.LANGFUSE_HOST }}" >> .env
           echo "YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}" >> .env
 
           echo "BOT_TELETHON_SESSION=${{ secrets.BOT_TELETHON_SESSION }}" >> .env
@@ -93,6 +93,7 @@ jobs:
           echo "TELEGRAM_CHAT_API_HASH=${{ secrets.TELEGRAM_CHAT_API_HASH }}" >> .env
           echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
           echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
+
         shell: bash
 
       - name: Install Python dependencies
