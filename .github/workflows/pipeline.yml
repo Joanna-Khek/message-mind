@@ -86,6 +86,8 @@ jobs:
           echo "LANGFUSE_PUBLIC_KEY=${{ secrets.LANGFUSE_PUBLIC_KEY }}" >> .env
           echo "LANGFUSE_HOST=${{ secrets.LANGFUSE_HOST }}" >> .env
           echo "YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}" >> .env
+          echo "INPUT_TOKENS_COST=${{ secrets.INPUT_TOKENS_COST }}" >> .env
+          echo "OUTPUT_TOKENS_COST=${{ secrets.OUTPUT_TOKENS_COST }}" >> .env
 
           echo "BOT_TELETHON_SESSION=${{ secrets.BOT_TELETHON_SESSION }}" >> .env
           echo "USER_TELETHON_SESSION=${{ secrets.USER_TELETHON_SESSION }}" >> .env
