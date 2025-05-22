@@ -1,4 +1,5 @@
 import os
+import html
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 from bson import ObjectId
@@ -40,17 +41,17 @@ async def notify_telegram(result: dict, cost: float) -> None:
     bot = Bot(os.getenv("TELEGRAM_BOT_TOKEN"))
 
     text = (
-        f"**Title:** {result['input']['details']}\n"
-        f"**Category:** {result['final_response'].category}\n"
-        f"**Summary:** {result['final_response'].summary}\n"
-        f"**Cost:** {cost}"
+        f"<b>Title:</b> {html.escape(result['input']['details'])}\n"
+        f"<b>Category:</b> {html.escape(result['final_response'].category)}\n"
+        f"<b>Summary:</b> {html.escape(result['final_response'].summary)}\n"
+        f"<b>Cost:</b> {cost}"
     )
 
     async with bot:
         await bot.send_message(
             chat_id=os.getenv("TELEGRAM_CHAT_ID"),
             text=text,
-            parse_mode="markdown",
+            parse_mode="HTML",
         )
 
 
