@@ -47,4 +47,8 @@ user_prompt = """
 Please summarize and categorise the below message content:
 
 Input: {message}
+
+First go through the following categories and see if the message content fits into any existing categories. If not, create a new appropriate category.
+
+Categories: {unique_categories}
 """
