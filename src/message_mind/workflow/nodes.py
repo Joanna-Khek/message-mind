@@ -16,7 +16,11 @@ llm_with_tools = llm.bind_tools(tools.tools)
 def call_model(state: AgentState):
     system_msg = SystemMessage(content=prompts.agent_system_prompt)
 
-    user_msg = HumanMessage(content=prompts.user_prompt.format(message=state["input"]))
+    user_msg = HumanMessage(
+        content=prompts.user_prompt.format(
+            message=state["input"], unique_categories=state["unique_categories"]
+        )
+    )
 
     response = llm_with_tools.invoke([system_msg, user_msg] + state["messages"])
     return {"messages": [response]}  # Add to existing list
