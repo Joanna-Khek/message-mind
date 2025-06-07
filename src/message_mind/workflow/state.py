@@ -1,6 +1,6 @@
 from typing_extensions import TypedDict
 from pydantic import BaseModel, Field
-from typing import Annotated
+from typing import Annotated, List
 from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage
 
@@ -13,5 +13,6 @@ class OutputResponse(BaseModel):
 
 class AgentState(TypedDict):
     input: dict
+    unique_categories: List[str]
     messages: Annotated[list[AnyMessage], add_messages]
     final_response: OutputResponse
