@@ -55,15 +55,27 @@ async def main():
     inputs = database_manager.fetch_items(
         collection_name=os.getenv("DB_COLLECTION_NAME")
     )
+
+    unique_categories = database_manager.get_unique_categories(
+        collection_name=os.getenv("DB_COLLECTION_NAME")
+    )
+
     logger.info(
         f"Fetched {len(inputs)} items requiring categorization from the database."
     )
+    logger.info(f"unique_categories: {unique_categories}")
 
     thread = {"configurable": {"thread_id": "1"}, "callbacks": [langfuse_handler]}
 
     for item in inputs:
         # Run the workflow graph to get category and summary of message
-        result = graph.invoke({"input": utils.convert_objectids(item)}, config=thread)
+        result = graph.invoke(
+            {
+                "input": utils.convert_objectids(item),
+                "unique_categories": unique_categories,
+            },
+            config=thread,
+        )
         logger.info(f"Generated result: {result['final_response']}")
 
         # Compute cost
