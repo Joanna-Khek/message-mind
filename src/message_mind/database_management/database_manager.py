@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from typing import List
 from bson import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.collection import Collection
@@ -130,3 +131,15 @@ class DatabaseManager:
         Close the MongoDB client connection.
         """
         self.client.close()
+
+    def get_unique_categories(self, collection_name: str) -> List[str]:
+        """
+        Get a list of unique categories from the environment variable.
+
+        Returns:
+            List[str]: A list of unique categories.
+        """
+        collection = self._setup_collection(collection_name)
+        unique_categories = collection.distinct("category")
+
+        return unique_categories
