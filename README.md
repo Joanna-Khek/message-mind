@@ -11,7 +11,7 @@ Like many others, I often come across insightful articles I want to read later. 
 
 I tried apps like GoodLinks, which let you organize and tag articles manually — but this added friction. I wanted a workflow that felt natural and invisible.
 
-That’s why I built MessageMind.
+That's why I built MessageMind.
 
 
 # How It Works
@@ -54,6 +54,8 @@ Connects to the MongoDB to display:
 - Read vs unread status
 - Summaries and tags
 - Progress tracking (e.g., how many articles you've read vs what's pending)
+
+The frontend repo is located in https://github.com/Joanna-Khek/message-mind-ui
 
 <img src="https://github.com/user-attachments/assets/0dc8ed2b-6dbb-4446-8a2b-2e84e92e0b69" width="100"/>
 
